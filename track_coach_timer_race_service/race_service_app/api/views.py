@@ -2,7 +2,6 @@ from race_service_app.api.serializers import RaceSerializer
 from race_service_app.models import Race
 from rest_framework.response import Response
 from rest_framework import status
-# from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from django.http import JsonResponse
 
@@ -13,7 +12,8 @@ class RaceListAPIView(APIView):
         return Response(serializer.data)
     
     def post(self, request):
-        serializer = RaceSerializer(data=request.data)
+        request_data = request.data.get('requestData')
+        serializer = RaceSerializer(data=request_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
